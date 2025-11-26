@@ -35,7 +35,6 @@ class User {
                 ':rol' => $rol
             ]);
         } catch (PDOException $e) {
-            // Podrías loguearlo
             return false;
         }
     }

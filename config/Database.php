@@ -7,11 +7,6 @@ class Database {
     public $conn = null;
     public $connected = false;
 
-    /**
-     * Obtiene la conexión PDO.
-     * @param bool $mostrarMensaje Si es true, muestra un mensaje indicando éxito o error.
-     * @return PDO|null
-     */
     public function getConnection($mostrarMensaje = false) {
         $this->conn = null;
         try {
@@ -39,10 +34,6 @@ class Database {
         }
         return $this->conn;
     }
-
-    /**
-     * Mensaje simple sobre el estado de la conexión.
-     */
     public function connectionStatus() {
         return $this->connected ? "Conectado" : "No conectado";
     }

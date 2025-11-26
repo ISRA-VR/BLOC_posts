@@ -41,7 +41,6 @@ class PostController {
             return;
         }
 
-        // POST -> verificar CSRF
         $this->verifyCsrfOrDie($_POST['csrf_token'] ?? '');
 
         $titulo = trim($_POST['titulo'] ?? '');
@@ -84,7 +83,6 @@ class PostController {
             return;
         }
 
-        // POST -> verificar CSRF
         $this->verifyCsrfOrDie($_POST['csrf_token'] ?? '');
 
         $titulo = trim($_POST['titulo'] ?? '');
@@ -108,14 +106,12 @@ class PostController {
     public function delete() {
         $user = $this->checkAuth();
 
-        // Ahora delete debe ser POST (más seguro que GET)
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $_SESSION['flash'] = "Método no permitido.";
             header('Location: index.php?controller=posts&action=index');
             exit;
         }
 
-        // Verificar CSRF
         $this->verifyCsrfOrDie($_POST['csrf_token'] ?? '');
 
         $id = intval($_POST['id'] ?? 0);
