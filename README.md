@@ -31,8 +31,8 @@
 ├── controllers/        # 🧠 Lógica (Auth, Posts)
 ├── models/             # 💾 Modelos de Datos (User, Post)
 ├── views/              # 👀 Interfaz de Usuario
+│   ├── assets/         # 🎨 CSS y Recursos estáticos
 │   ├── auth/           # Login & Registro
+│   ├── layouts/        # Estructura de html (footer, header...)
 │   └── posts/          # CRUD de Publicaciones
-├── assets/             # 🎨 CSS y Recursos estáticos
-├── index.php           # 🚦 Front Controller & Router
-└── setup_admin.php     # 🛠️ Script de instalación Admin
+└── index.php           # 🚦 Front Controller & Router
