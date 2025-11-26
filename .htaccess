@@ -1,0 +1,10 @@
+# Opcional: permite usar URLs "bonitas" si Apache tiene mod_rewrite.
+# Si no quieres URLs bonitas, puedes eliminar o ignorar este archivo.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Si el archivo o directorio existe, servirlo directamente
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # Redirigir todo lo demás a index.php (front controller)
+    RewriteRule ^.*$ index.php [L,QSA]
+</IfModule>
