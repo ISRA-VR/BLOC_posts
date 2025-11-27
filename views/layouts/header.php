@@ -77,7 +77,7 @@
 
         <?php else: ?>
             <a class="btn btn-sm btn-outline-light me-2" href="index.php?controller=auth&action=login">
-                Entrar
+                Inicar sesión
             </a>
             <a class="btn btn-sm btn-light text-primary fw-bold shadow-sm" href="index.php?controller=auth&action=register">
                 Registrar
