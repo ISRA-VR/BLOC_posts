@@ -1,6 +1,10 @@
 <?php
 require_once __DIR__ . '/../models/User.php';
 
+// ==========================================
+// CONTROLADOR DE AUTENTICACIÓN
+// ==========================================
+// Maneja el registro, inicio de sesión y cierre de sesión.
 class AuthController {
     private $userModel;
 
@@ -8,11 +12,15 @@ class AuthController {
         $this->userModel = new User();
     }
 
+    // Acción: Iniciar sesión
     public function login() {
+        // GET: Mostrar formulario
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             require __DIR__ . '/../views/auth/login.php';
             return;
         }
+        
+        // POST: Procesar login
         $token = $_POST['csrf_token'] ?? '';
         if (!isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $token)) {
             $_SESSION['flash'] = "Token inválido. Intenta nuevamente.";
@@ -29,6 +37,7 @@ class AuthController {
             exit;
         }
 
+        // Buscamos usuario y verificamos contraseña
         $user = $this->userModel->findByEmail($email);
         if (!$user || !password_verify($password, $user['password'])) {
             $_SESSION['flash'] = "Credenciales inválidas.";
@@ -36,8 +45,10 @@ class AuthController {
             exit;
         }
 
+        // Seguridad: Regenerar ID de sesión para evitar fijación de sesión
         session_regenerate_id(true);
 
+        // Guardamos datos del usuario en sesión
         $_SESSION['user'] = [
             'id' => $user['id'],
             'nombre' => $user['nombre'],
@@ -45,11 +56,13 @@ class AuthController {
             'rol' => $user['rol']
         ];
 
+        // Rotamos el token CSRF por seguridad
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
         header('Location: index.php?controller=posts&action=index');
     }
 
+    // Acción: Registro de usuario
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             require __DIR__ . '/../views/auth/register.php';
@@ -96,8 +109,12 @@ class AuthController {
         }
     }
 
+    // Acción: Cerrar sesión
     public function logout() {
+        // Limpiamos la sesión
         $_SESSION = [];
+        
+        // Borramos la cookie de sesión
         $params = session_get_cookie_params();
         setcookie(
             session_name(),

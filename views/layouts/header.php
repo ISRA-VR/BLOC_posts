@@ -1,5 +1,8 @@
 <?php
-// views/layouts/header.php
+// ==========================================
+// VISTA: HEADER (ENCABEZADO COMÚN)
+// ==========================================
+// Este archivo se incluye al principio de todas las páginas.
 ?>
 <!doctype html>
 <html lang="es">
@@ -11,76 +14,152 @@
     <!-- Bootstrap 5 y Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #ff0080;
+            --bg-color: #f0f2f5;
+            --text-color: #2d3748;
+            --card-bg: #ffffff;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
         body {
-            background-color: #f8f9fa;
+            background-color: var(--bg-color);
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
         }
 
+        /* Navbar Premium */
         .navbar-custom {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .navbar-custom .text-primary {
-            color: #764ba2 !important; 
-        }
-
-        .btn-brand {
-            background-color: #764ba2;
-            color: white;
-            border: none;
-            transition: all 0.3s ease;
-        }
-        .btn-brand:hover {
-            background-color: #5a367e;
-            transform: translateY(-2px); /* Efecto de elevación */
-            color: white;
-            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
-        }
-
-        .card-custom {
-            border-top: 5px solid #764ba2;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         
-        /* 5. Alerta personalizada */
-        .alert-warning {
-            background-color: #fff3cd;
-            border-color: #ffecb5;
-            color: #664d03;
+        .navbar-custom .navbar-brand {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+
+        .navbar-custom .nav-link {
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .navbar-custom .nav-link:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Botones Premium */
+        .btn-brand {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+        }
+        
+        .btn-brand:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(118, 75, 162, 0.4);
+            color: white;
+        }
+
+        .btn-outline-brand {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 0.4rem 1.4rem;
+            background: transparent;
+            transition: all 0.3s;
+        }
+
+        .btn-outline-brand:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Cards */
+        .card-custom {
+            background: var(--card-bg);
+            border: none;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Alertas */
+        .alert {
+            border-radius: var(--radius-md);
+            border: none;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Modal Backdrop */
+        .modal-overlay {
+            backdrop-filter: blur(5px);
         }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100"> 
 
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4 py-3">
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom mb-5 py-3 sticky-top">
   <div class="container">
     
-    <a class="navbar-brand fw-bold" href="index.php?controller=posts&action=index">
-        <i class="bi bi-journal-text me-2"></i>Mi Blog
+    <a class="navbar-brand" href="index.php?controller=posts&action=index">
+        <i class="bi bi-journal-richtext me-2"></i>Mi Blog
     </a>
     
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-      <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarContent">
-      <div class="ms-auto d-flex align-items-center">
+      <div class="ms-auto d-flex align-items-center gap-2">
         
         <?php if (!empty($_SESSION['user'])): ?>
-            <span class="navbar-text text-white me-3">
-                Hola, <strong><?=htmlspecialchars($_SESSION['user']['nombre'])?></strong>
-            </span>
-            <a class="btn btn-sm btn-light text-primary fw-bold shadow-sm" href="index.php?controller=auth&action=logout">
+            <div class="d-flex align-items-center me-3 text-muted">
+                <div class="bg-light rounded-circle p-2 me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <span>Hola, <strong><?=htmlspecialchars($_SESSION['user']['nombre'])?></strong></span>
+            </div>
+            <a class="btn btn-outline-danger btn-sm rounded-pill px-3" href="index.php?controller=auth&action=logout">
                 <i class="bi bi-box-arrow-right me-1"></i> Salir
             </a>
 
         <?php else: ?>
-            <a class="btn btn-sm btn-outline-light me-2" href="index.php?controller=auth&action=login">
-                Inicar sesión
+            <a class="btn btn-link text-decoration-none text-secondary fw-bold" href="index.php?controller=auth&action=login">
+                Iniciar sesión
             </a>
-            <a class="btn btn-sm btn-light text-primary fw-bold shadow-sm" href="index.php?controller=auth&action=register">
-                Registrar
+            <a class="btn btn-brand shadow-sm" href="index.php?controller=auth&action=register">
+                Registrarse
             </a>
         <?php endif; ?>
 

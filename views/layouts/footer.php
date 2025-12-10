@@ -1,5 +1,9 @@
 <?php
-// views/layouts/footer.php
+// ==========================================
+// VISTA: FOOTER (PIE DE PÁGINA COMÚN)
+// ==========================================
+// Este archivo se incluye al final de todas las páginas.
+// Cierra las etiquetas abiertas en header.php y carga los scripts JS.
 ?>
 </div> 
 
