@@ -49,14 +49,28 @@ class Post {
     }
 
     // Actualizar un post existente
-    public function update($id, $titulo, $contenido) {
-        $sql = "UPDATE posts SET titulo = :titulo, contenido = :contenido WHERE id = :id";
+    public function update($id, $titulo, $contenido, $imagen = null) {
+        $sql = "UPDATE posts SET titulo = :titulo, contenido = :contenido";
+
+        // Si se proporciona una nueva imagen, incluirla en la consulta
+        if ($imagen) {
+            $sql .= ", imagen = :imagen";
+        }
+
+        $sql .= " WHERE id = :id";
+
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([
-            ':titulo' => $titulo,
-            ':contenido' => $contenido,
-            ':id' => $id
-        ]);
+
+        // Vincular parámetros
+        $stmt->bindParam(':titulo', $titulo);
+        $stmt->bindParam(':contenido', $contenido);
+        $stmt->bindParam(':id', $id);
+
+        if ($imagen) {
+            $stmt->bindParam(':imagen', $imagen);
+        }
+
+        return $stmt->execute();
     }
 
     // Eliminar un post

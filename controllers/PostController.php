@@ -138,6 +138,42 @@ class PostController {
 
         $titulo = trim($_POST['titulo'] ?? '');
         $contenido = trim($_POST['contenido'] ?? '');
+        $imagen = $post['imagen']; // Mantener la imagen actual por defecto
+
+        // Manejo de subida de imagen
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../uploads/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+
+            $fileTmpPath = $_FILES['imagen']['tmp_name'];
+            $fileName = $_FILES['imagen']['name'];
+            $fileNameCmps = explode(".", $fileName);
+            $fileExtension = strtolower(end($fileNameCmps));
+
+            $allowedfileExtensions = array('jpg', 'gif', 'png', 'jpeg', 'webp');
+            if (in_array($fileExtension, $allowedfileExtensions)) {
+                $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+                $dest_path = $uploadDir . $newFileName;
+
+                if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                    // Eliminar la imagen anterior si existe
+                    if (!empty($post['imagen']) && file_exists(__DIR__ . '/../' . $post['imagen'])) {
+                        unlink(__DIR__ . '/../' . $post['imagen']);
+                    }
+                    $imagen = 'uploads/' . $newFileName;
+                } else {
+                    $_SESSION['flash'] = "Error al mover el archivo subido.";
+                    header("Location: index.php?controller=post&action=edit&id={$id}");
+                    exit;
+                }
+            } else {
+                $_SESSION['flash'] = "Tipo de archivo no permitido. Solo JPG, GIF, PNG, WEBP.";
+                header("Location: index.php?controller=post&action=edit&id={$id}");
+                exit;
+            }
+        }
 
         if (!$titulo || !$contenido) {
             $_SESSION['flash'] = "Completa todos los campos.";
@@ -145,7 +181,7 @@ class PostController {
             exit;
         }
 
-        $updated = $this->postModel->update($id, $titulo, $contenido);
+        $updated = $this->postModel->update($id, $titulo, $contenido, $imagen);
         if ($updated) {
             $_SESSION['flash'] = "Post actualizado.";
         } else {

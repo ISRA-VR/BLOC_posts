@@ -1,30 +1,118 @@
-<?php 
-// ==========================================
-// VISTA: EDITAR POST
-// ==========================================
-// Recibe la variable $post con los datos actuales para rellenar el formulario.
-
-require __DIR__ . '/../layouts/header.php'; 
+<?php
+require __DIR__ . '/../layouts/header.php';
 ?>
-<div class="row">
+<div class="row justify-content-center">
   <div class="col-md-8">
-    <h2>Editar Post</h2>
-    <!-- El formulario envía los datos por POST a la acción 'edit' con el ID del post -->
-    <form method="post" action="index.php?controller=post&action=edit&id=<?=$post['id']?>">
-      <input type="hidden" name="csrf_token" value="<?=htmlspecialchars($_SESSION['csrf_token'] ?? '')?>">
-      <div class="mb-3">
-        <label for="titulo" class="form-label">Título</label>
-        <!-- Rellenamos el valor actual con value="..." -->
-        <input type="text" class="form-control" id="titulo" name="titulo" required value="<?=htmlspecialchars($post['titulo'])?>">
-      </div>
-      <div class="mb-3">
-        <label for="contenido" class="form-label">Contenido</label>
-        <!-- En textarea el valor va entre las etiquetas -->
-        <textarea class="form-control" id="contenido" name="contenido" rows="10" required><?=htmlspecialchars($post['contenido'])?></textarea>
-      </div>
-      <button class="btn btn-primary">Actualizar</button>
-      <a class="btn btn-secondary" href="index.php?controller=posts&action=index">Volver</a>
-    </form>
+    <div class="card card-custom p-4">
+        <div class="card-body">
+            <h2 class="fw-bold mb-4 text-center text-primary">Editar Post</h2>
+            
+            <!-- El formulario envía los datos por POST a la acción 'edit' con el ID del post -->
+            <form method="post" action="index.php?controller=post&action=edit&id=<?= $post['id'] ?>" enctype="multipart/form-data">
+              <input type="hidden" name="csrf_token" value="<?=htmlspecialchars($_SESSION['csrf_token'] ?? '')?>">
+              
+              <div class="mb-4">
+                <label for="titulo" class="form-label fw-bold text-secondary">Título del Post</label>
+                <!-- Rellenamos el valor actual con value="..." -->
+                <input type="text" class="form-control form-control-lg bg-light border-0" id="titulo" name="titulo" placeholder="Escribe un título llamativo..." required value="<?= htmlspecialchars($post['titulo']) ?>">
+              </div>
+              
+              <div class="mb-4">
+                <label class="form-label fw-bold text-secondary">Imagen Destacada</label>
+                <div id="drop-zone" class="border rounded-3 p-5 text-center bg-light position-relative" style="border: 2px dashed #cbd5e0 !important; cursor: pointer; transition: all 0.3s;">
+                    <div id="upload-prompt">
+                        <i class="bi bi-cloud-arrow-up text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="fw-bold text-dark">Arrastra tu imagen aquí</h5>
+                        <p class="text-muted small">o haz clic para explorar</p>
+                    </div>
+                    <input type="file" name="imagen" id="imagen" class="d-none" accept="image/*">
+                    
+                    <div id="preview-container" class="mt-3 <?= empty($post['imagen']) ? 'd-none' : '' ?>">
+                        <img id="preview-image" src="<?= !empty($post['imagen']) ? htmlspecialchars($post['imagen']) : '' ?>" alt="Vista previa" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
+                        <div class="mt-2">
+                            <span id="file-name" class="badge bg-secondary">Imagen actual</span>
+                            <button type="button" class="btn btn-sm btn-outline-danger ms-2" onclick="clearImage(event)">Quitar</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label for="contenido" class="form-label fw-bold text-secondary">Contenido</label>
+                <!-- En textarea el valor va entre las etiquetas -->
+                <textarea class="form-control bg-light border-0" id="contenido" name="contenido" rows="8" placeholder="¿Qué estás pensando hoy?" required><?= htmlspecialchars($post['contenido']) ?></textarea>
+              </div>
+              
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <a class="btn btn-light text-secondary fw-bold px-4 rounded-pill" href="index.php?controller=posts&action=index">Cancelar</a>
+                  <button class="btn btn-brand px-5 rounded-pill shadow-lg">Actualizar Post</button>
+              </div>
+            </form>
+        </div>
+    </div>
   </div>
 </div>
+
+<script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('imagen');
+    const previewContainer = document.getElementById('preview-container');
+    const previewImage = document.getElementById('preview-image');
+    const fileName = document.getElementById('file-name');
+    const uploadPrompt = document.getElementById('upload-prompt');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('bg-light');
+        dropZone.style.backgroundColor = '#ebf4ff';
+        dropZone.style.borderColor = '#667eea';
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.add('bg-light');
+        dropZone.style.backgroundColor = '';
+        dropZone.style.borderColor = '#cbd5e0';
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('bg-light');
+        dropZone.style.backgroundColor = '';
+        dropZone.style.borderColor = '#cbd5e0';
+        
+        if (e.dataTransfer.files.length) {
+            fileInput.files = e.dataTransfer.files;
+            showPreview(e.dataTransfer.files[0]);
+        }
+    });
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length) {
+            showPreview(fileInput.files[0]);
+        }
+    });
+
+    function showPreview(file) {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImage.src = e.target.result;
+                previewContainer.classList.remove('d-none');
+                uploadPrompt.classList.add('d-none');
+                fileName.textContent = file.name;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function clearImage(e) {
+        e.stopPropagation(); // Evitar abrir el selector de archivos
+        fileInput.value = '';
+        previewContainer.classList.add('d-none');
+        uploadPrompt.classList.remove('d-none');
+        previewImage.src = '';
+    }
+</script>
 <?php require __DIR__ . '/../layouts/footer.php'; ?>
