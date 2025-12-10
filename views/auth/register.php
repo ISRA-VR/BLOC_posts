@@ -10,6 +10,7 @@ require __DIR__ . '/../layouts/header.php';
 <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
   <div class="col-md-6 col-lg-5">
     
+    <!-- Nota: Si quieres el borde de color arriba, agrega la clase 'card-custom' aquí -->
     <div class="card border-0 shadow-lg rounded-4">
       <div class="card-body p-5">
         
@@ -40,19 +41,31 @@ require __DIR__ . '/../layouts/header.php';
             </div>
           </div>
 
+          <!-- CONTRASEÑA 1 -->
           <div class="mb-3">
             <label for="password" class="form-label small text-muted fw-bold">Contraseña</label>
             <div class="input-group">
                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-                <input type="password" class="form-control bg-light border-start-0 ps-0" id="password" name="password" placeholder="Crea una contraseña segura" required>
+                <!-- Agregado border-end-0 -->
+                <input type="password" class="form-control bg-light border-start-0 border-end-0 ps-0" id="password" name="password" placeholder="Crea una contraseña segura" required>
+                <!-- Botón Ojo 1 -->
+                <button class="btn bg-light border-start-0" type="button" id="togglePass1" style="border-color: #dee2e6;">
+                    <i class="bi bi-eye text-muted" id="icon1"></i>
+                </button>
             </div>
           </div>
 
+          <!-- CONTRASEÑA 2 -->
           <div class="mb-4">
             <label for="password2" class="form-label small text-muted fw-bold">Confirmar Contraseña</label>
             <div class="input-group">
                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-shield-lock-fill text-muted"></i></span>
-                <input type="password" class="form-control bg-light border-start-0 ps-0" id="password2" name="password2" placeholder="Repite la contraseña" required>
+                <!-- Agregado border-end-0 -->
+                <input type="password" class="form-control bg-light border-start-0 border-end-0 ps-0" id="password2" name="password2" placeholder="Repite la contraseña" required>
+                <!-- Botón Ojo 2 -->
+                <button class="btn bg-light border-start-0" type="button" id="togglePass2" style="border-color: #dee2e6;">
+                    <i class="bi bi-eye text-muted" id="icon2"></i>
+                </button>
             </div>
           </div>
 
@@ -72,5 +85,28 @@ require __DIR__ . '/../layouts/header.php';
     </div>
   </div>
 </div><br>
+
+<!-- Script para manejar los dos ojitos -->
+<script>
+    function setupToggle(buttonId, inputId, iconId) {
+        const button = document.getElementById(buttonId);
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+
+        button.addEventListener('click', function () {
+            // Cambiar tipo de input
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            
+            // Cambiar icono
+            icon.classList.toggle('bi-eye');
+            icon.classList.toggle('bi-eye-slash');
+        });
+    }
+
+    // Inicializar para ambos campos
+    setupToggle('togglePass1', 'password', 'icon1');
+    setupToggle('togglePass2', 'password2', 'icon2');
+</script>
 
 <?php require __DIR__ . '/../layouts/footer.php'; ?>

@@ -1,40 +1,26 @@
 <?php
-// ==========================================
-// VISTA: FOOTER (PIE DE PÁGINA COMÚN)
-// ==========================================
-// Este archivo se incluye al final de todas las páginas.
-// Cierra las etiquetas abiertas en header.php y carga los scripts JS.
 ?>
 </div> 
 
-<footer class="py-4 mt-auto shadow-lg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+<style>
+    .footer-custom {
+        background: rgba(211, 234, 255, 1);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(0,0,0,0.05);
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.02);
+        place-items: center;
+    }
+</style>
+
+<footer class="py-4 mt-auto footer-custom">
     <div class="container d-flex flex-wrap justify-content-between align-items-center">
         
         <div class="col-md-4 d-flex align-items-center">
-            <!-- Texto en blanco -->
-            <span class="text-white">© <?php echo date('Y'); ?> <strong>Mi Blog</strong> Personal - Derechos reservados</span>
+            <!-- Texto adaptado al tema claro (ya no es text-white) -->
+            <span class="text-muted fw-medium">
+                © <?php echo date('Y'); ?> <strong style="color: var(--secondary-color);">Mi Blog</strong> Personal - Derechos reservados
+            </span>
         </div>
-
-        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-            <li class="ms-3">
-                <!-- Icono Github Blanco -->
-                <a class="text-white" href="https://github.com/ISRA-VR" target="_blank" style="font-size: 1.5rem; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                    <i class="bi bi-github"></i>
-                </a>
-            </li>
-            <li class="ms-3">
-                <!-- Icono Facebook Blanco -->
-                <a class="text-white" href="https://www.facebook.com/isra.IVR01/?locale=es_LA" target="_blank" style="font-size: 1.5rem; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                    <i class="bi bi-facebook"></i>
-                </a>
-            </li>
-            <li class="ms-3">
-                <!-- Icono Email Blanco -->
-                <a class="text-white" href="mailto:israelvalerdi65@gmail.com" style="font-size: 1.5rem; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                    <i class="bi bi-envelope"></i>
-                </a>
-            </li>
-        </ul>
     </div>
 </footer>
 
@@ -49,10 +35,16 @@ function confirmarEliminar(url) {
         text: "No podrás revertir esto.",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#764ba2',
+        confirmButtonColor: '#764ba2', /* Coincide con var(--secondary-color) */
         cancelButtonColor: '#aaa',
         confirmButtonText: 'Sí, borrar',
-        cancelButtonText: 'Cancelar'
+        cancelButtonText: 'Cancelar',
+        // Estilos para que el modal coincida con la tipografía Outfit
+        customClass: {
+            popup: 'rounded-4 shadow-lg',
+            confirmButton: 'rounded-pill px-4',
+            cancelButton: 'rounded-pill px-4'
+        }
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.href = url;

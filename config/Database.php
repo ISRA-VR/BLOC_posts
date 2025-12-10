@@ -1,36 +1,23 @@
 <?php
-// ==========================================
-// CLASE DE CONEXIÓN A BASE DE DATOS
-// ==========================================
 class Database {
     
-    // Configuración LOCAL (XAMPP)
     private $host = 'localhost';
     private $db_name = 'miblogpro';
     private $username = 'root';
     private $password = '';
-    
-    // Configuración REMOTA (Comentada)
-    // private $host = 'mysql.webcindario.com';
-    // private $db_name = 'miblogpro';
-    // private $username = 'miblogpro';
-    // private $password = '2004Osva@';
 
     public $conn = null;
     public $connected = false;
 
-    // Método para obtener la conexión PDO
     public function getConnection($mostrarMensaje = false) {
         $this->conn = null;
         try {
-            // Opciones de configuración de PDO
             $options = [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // Lanzar excepciones en caso de error
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, // Devolver arrays asociativos por defecto
                 PDO::ATTR_EMULATE_PREPARES => false, // Usar sentencias preparadas nativas (más seguro)
             ];
 
-            // DSN (Data Source Name): Cadena de conexión
             $dsn = "mysql:host={$this->host};dbname={$this->db_name};charset=utf8mb4";
             $this->conn = new PDO($dsn, $this->username, $this->password, $options);
             $this->connected = true;

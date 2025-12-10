@@ -1,16 +1,11 @@
 <?php 
-// ==========================================
-// VISTA: LOGIN
-// ==========================================
-// Formulario de inicio de sesión. Envía credenciales a AuthController.
-
 require __DIR__ . '/../layouts/header.php'; 
 ?>
 
 <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
   <div class="col-md-5 col-lg-4">
     
-    <div class="card border-0 shadow-lg rounded-4">
+    <div class="card card-custom border-0 shadow-lg rounded-4">
       <div class="card-body p-5">
         
         <div class="text-center mb-4">
@@ -35,13 +30,22 @@ require __DIR__ . '/../layouts/header.php';
           <div class="mb-4">
             <label for="password" class="form-label small text-muted fw-bold">Contraseña</label>
             <div class="input-group">
+                <!-- Icono candado izquierda -->
                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock-fill text-muted"></i></span>
-                <input type="password" class="form-control bg-light border-start-0 ps-0" id="password" name="password" placeholder="••••••••" required>
+                
+                <!-- Input contraseña (agregué border-end-0) -->
+                <input type="password" class="form-control bg-light border-start-0 border-end-0 ps-0" id="password" name="password" placeholder="••••••••" required>
+                
+                <!-- BOTÓN DEL OJO (NUEVO) -->
+                <button class="btn bg-light border-start-0" type="button" id="togglePassword" style="border-color: #dee2e6;">
+                    <i class="bi bi-eye text-muted" id="eyeIcon"></i>
+                </button>
             </div>
           </div>
 
           <div class="d-grid mb-3">
-             <button class="btn btn-dark btn-lg rounded-3">Entrar</button>
+             <!-- Asegurate de tener la clase .btn-brand en tu CSS, si no usa btn-dark -->
+             <button class="btn btn-brand btn-lg rounded-3">Entrar</button>
           </div>
         </form>
 
@@ -57,5 +61,22 @@ require __DIR__ . '/../layouts/header.php';
 
   </div>
 </div><br>
+
+<!-- Script para intercalar la contraseña -->
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+    const eyeIcon = document.querySelector('#eyeIcon');
+
+    togglePassword.addEventListener('click', function (e) {
+        // Alternar el atributo type
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        
+        // Alternar el icono del ojo (ojo abierto / ojo tachado)
+        eyeIcon.classList.toggle('bi-eye');
+        eyeIcon.classList.toggle('bi-eye-slash');
+    });
+</script>
 
 <?php require __DIR__ . '/../layouts/footer.php'; ?>

@@ -1,11 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/Database.php';
 
-// ==========================================
-// MODELO POST
-// ==========================================
-// Se encarga de todas las operaciones de base de datos relacionadas con los Posts.
-// CRUD: Create, Read, Update, Delete
 class Post {
     private $db;
 

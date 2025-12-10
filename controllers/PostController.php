@@ -1,10 +1,6 @@
 <?php
 require_once __DIR__ . '/../models/Post.php';
 
-// ==========================================
-// CONTROLADOR DE POSTS
-// ==========================================
-// Maneja la lógica de negocio para los posts: listar, crear, editar, eliminar.
 class PostController {
     private $postModel;
 

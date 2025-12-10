@@ -71,7 +71,7 @@ require __DIR__ . '/../layouts/header.php';
                         </button>
                       </form>
                   </div>
-                  <small class="text-primary fw-bold">Leer más <i class="bi bi-arrow-right"></i></small>
+                  <small class="text-primary fw-bold"></small>
               </div>
             </div>
           </div>
