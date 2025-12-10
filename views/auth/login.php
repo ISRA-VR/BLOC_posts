@@ -1,4 +1,11 @@
-<?php require __DIR__ . '/../layouts/header.php'; ?>
+<?php 
+// ==========================================
+// VISTA: LOGIN
+// ==========================================
+// Formulario de inicio de sesión. Envía credenciales a AuthController.
+
+require __DIR__ . '/../layouts/header.php'; 
+?>
 
 <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
   <div class="col-md-5 col-lg-4">

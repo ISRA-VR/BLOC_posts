@@ -1,4 +1,11 @@
-<?php require __DIR__ . '/../layouts/header.php'; ?>
+<?php 
+// ==========================================
+// VISTA: REGISTRO
+// ==========================================
+// Formulario para crear nueva cuenta.
+
+require __DIR__ . '/../layouts/header.php'; 
+?>
 
 <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
   <div class="col-md-6 col-lg-5">
