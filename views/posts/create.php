@@ -1,11 +1,4 @@
-<?php 
-// ==========================================
-// VISTA: CREAR POST
-// ==========================================
-// Muestra un formulario para enviar datos al método create() del controlador.
-
-require __DIR__ . '/../layouts/header.php'; 
-?>
+<?php require __DIR__ . '/../layouts/header.php'; ?>
 
 <div class="row justify-content-center">
   <div class="col-md-8">
@@ -23,16 +16,18 @@ require __DIR__ . '/../layouts/header.php';
               
               <div class="mb-4">
                 <label class="form-label fw-bold text-secondary">Imagen Destacada</label>
-                <div id="drop-zone" class="border rounded-3 p-5 text-center bg-light position-relative" style="border: 2px dashed #cbd5e0 !important; cursor: pointer; transition: all 0.3s;">
+                <div id="drop-zone" class="dropzone border rounded-3 p-5 text-center bg-light position-relative">
                     <div id="upload-prompt">
-                        <i class="bi bi-cloud-arrow-up text-primary mb-3" style="font-size: 3rem;"></i>
+                        <i class="bi bi-cloud-arrow-up text-primary mb-3 fs-1"></i>
                         <h5 class="fw-bold text-dark">Arrastra tu imagen aquí</h5>
                         <p class="text-muted small">o haz clic para explorar</p>
                     </div>
                     <input type="file" name="imagen" id="imagen" class="d-none" accept="image/*">
                     
                     <div id="preview-container" class="mt-3 d-none">
-                        <img id="preview-image" src="" alt="Vista previa" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
+                        <div class="overflow-hidden" style="height:300px;">
+                            <img id="preview-image" src="" alt="Vista previa" class="w-100 h-100 rounded shadow-sm img-cover">
+                        </div>
                         <div class="mt-2">
                             <span id="file-name" class="badge bg-secondary"></span>
                             <button type="button" class="btn btn-sm btn-outline-danger ms-2" onclick="clearImage(event)">Quitar</button>
@@ -69,21 +64,18 @@ require __DIR__ . '/../layouts/header.php';
     dropZone.addEventListener('dragover', (e) => {
         e.preventDefault();
         dropZone.classList.remove('bg-light');
-        dropZone.style.backgroundColor = '#ebf4ff';
-        dropZone.style.borderColor = '#667eea';
+        dropZone.classList.add('dragover');
     });
 
     dropZone.addEventListener('dragleave', () => {
         dropZone.classList.add('bg-light');
-        dropZone.style.backgroundColor = '';
-        dropZone.style.borderColor = '#cbd5e0';
+        dropZone.classList.remove('dragover');
     });
 
     dropZone.addEventListener('drop', (e) => {
         e.preventDefault();
         dropZone.classList.add('bg-light');
-        dropZone.style.backgroundColor = '';
-        dropZone.style.borderColor = '#cbd5e0';
+        dropZone.classList.remove('dragover');
         
         if (e.dataTransfer.files.length) {
             fileInput.files = e.dataTransfer.files;

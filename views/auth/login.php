@@ -1,15 +1,13 @@
-<?php 
-require __DIR__ . '/../layouts/header.php'; 
-?>
+<?php require __DIR__ . '/../layouts/header.php'; ?>
 
-<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+<div class="row justify-content-center align-items-center min-vh-75">
   <div class="col-md-5 col-lg-4">
     
     <div class="card card-custom border-0 shadow-lg rounded-4">
       <div class="card-body p-5">
         
         <div class="text-center mb-4">
-            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:60px;height:60px;">
                 <i class="bi bi-person-fill fs-2"></i>
             </div>
             <h2 class="fw-bold text-dark">Iniciar sesión</h2>
@@ -37,7 +35,7 @@ require __DIR__ . '/../layouts/header.php';
                 <input type="password" class="form-control bg-light border-start-0 border-end-0 ps-0" id="password" name="password" placeholder="••••••••" required>
                 
                 <!-- BOTÓN DEL OJO (NUEVO) -->
-                <button class="btn bg-light border-start-0" type="button" id="togglePassword" style="border-color: #dee2e6;">
+                <button class="btn bg-light border-start-0 border" type="button" id="togglePassword">
                     <i class="bi bi-eye text-muted" id="eyeIcon"></i>
                 </button>
             </div>

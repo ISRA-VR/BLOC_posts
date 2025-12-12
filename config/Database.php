@@ -31,9 +31,7 @@ class Database {
             if ($mostrarMensaje) {
                 echo "<div style='padding:10px;background:#ffe6e6;border:1px solid #f0b6b6;color:#5a0b0b;margin:10px 0;'>$errorMsg</div>";
             } else {
-                // En producción, es mejor guardar el error en un log y no mostrarlo al usuario
                 error_log($errorMsg);
-                // Lanzamos la excepción para que el código que llama sepa que falló
                 throw new Exception("No se pudo conectar a la base de datos.");
             }
         }

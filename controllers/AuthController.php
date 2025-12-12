@@ -37,18 +37,31 @@ class AuthController {
             exit;
         }
 
+        // Bloquear usuarios suspendidos
+        if (!empty($user['suspendido']) && intval($user['suspendido']) === 1) {
+            $_SESSION['flash'] = "Tu cuenta está suspendida. Contacta al administrador.";
+            header('Location: index.php?controller=auth&action=login');
+            exit;
+        }
+
         session_regenerate_id(true);
 
         $_SESSION['user'] = [
             'id' => $user['id'],
             'nombre' => $user['nombre'],
             'email' => $user['email'],
-            'rol' => $user['rol']
+            'rol' => $user['rol'],
+            'suspendido' => $user['suspendido'] ?? 0
         ];
 
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
-        header('Location: index.php?controller=posts&action=index');
+        // Redirigir según rol: admins al dashboard
+        if (!empty($_SESSION['user']['rol']) && $_SESSION['user']['rol'] === 'admin') {
+            header('Location: index.php?controller=admin&action=index');
+        } else {
+            header('Location: index.php?controller=posts&action=index');
+        }
     }
 
     public function register() {
@@ -77,6 +90,14 @@ class AuthController {
 
         if ($password !== $password2) {
             $_SESSION['flash'] = "Las contraseñas no coinciden.";
+            header('Location: index.php?controller=auth&action=register');
+            exit;
+        }
+
+        // Validación de contraseña fuerte: 8+ chars, una mayúscula, un dígito y un símbolo
+        $strongPattern = '/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/';
+        if (!preg_match($strongPattern, $password)) {
+            $_SESSION['flash'] = "La contraseña no cumple: mínima de 8 caracteres con mayúscula, número y símbolo.";
             header('Location: index.php?controller=auth&action=register');
             exit;
         }

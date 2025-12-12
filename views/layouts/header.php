@@ -135,6 +135,21 @@
         .modal-overlay {
             backdrop-filter: blur(5px);
         }
+
+        /* Utilidades personalizadas */
+        .dropzone {
+            border: 2px dashed #cbd5e0;
+            cursor: pointer;
+            transition: all .3s;
+        }
+        .dropzone.dragover {
+            background-color: #ebf4ff;
+            border-color: #667eea;
+        }
+
+        .img-cover {
+            object-fit: cover;
+        }
     </style>
 </head>
 
@@ -161,7 +176,12 @@
                             </div>
                             <span>Hola, <strong><?= htmlspecialchars($_SESSION['user']['nombre']) ?></strong></span>
                         </div>
-                        <a class="btn btn-outline-danger btn-sm rounded-pill px-3" href="index.php?controller=auth&action=logout">
+                        <?php if (!empty($_SESSION['user']['rol']) && $_SESSION['user']['rol'] === 'admin'): ?>
+                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3 me-2" href="index.php?controller=admin&action=index">
+                                <i class="bi bi-speedometer2 me-1"></i> Admin
+                            </a>
+                        <?php endif; ?>
+                        <a class="btn btn-outline-danger btn-sm rounded-pill px-3" href="index.php?controller=auth&action=logout" onclick="return confirm('¿Seguro que quiere cerrar sesión?');">
                             <i class="bi bi-box-arrow-right me-1"></i> Salir
                         </a>
 

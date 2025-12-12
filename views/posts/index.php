@@ -1,12 +1,4 @@
-<?php 
-// ==========================================
-// VISTA: LISTADO DE POSTS
-// ==========================================
-// Recibe la variable $posts del PostController.
-// Muestra una lista o un mensaje si está vacía.
-
-require __DIR__ . '/../layouts/header.php'; 
-?>
+<?php require __DIR__ . '/../layouts/header.php'; ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h2 class="fw-bold text-dark"><i class="bi bi-grid-fill me-2 text-primary"></i>Explorar Posts</h2>
@@ -35,8 +27,8 @@ require __DIR__ . '/../layouts/header.php';
                onclick="openModal(this)">
             
             <?php if(!empty($p['imagen'])): ?>
-                <div style="height: 200px; overflow: hidden;">
-                    <img src="<?=htmlspecialchars($p['imagen'])?>" class="card-img-top" alt="Imagen del post" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="overflow-hidden" style="height:200px;">
+                    <img src="<?=htmlspecialchars($p['imagen'])?>" class="card-img-top w-100 h-100 img-cover" alt="Imagen del post">
                 </div>
             <?php else: ?>
                 <div class="bg-light d-flex align-items-center justify-content-center text-muted" style="height: 200px;">

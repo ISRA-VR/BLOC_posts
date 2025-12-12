@@ -11,10 +11,26 @@ class Post {
     }
 
     // Obtener todos los posts (para la página principal)
-    public function all() {
-        // JOIN: Unimos la tabla posts con usuarios para obtener el nombre del autor
-        $sql = "SELECT p.*, u.nombre as autor_nombre FROM posts p JOIN usuarios u ON p.usuario_id = u.id ORDER BY p.fecha_creacion DESC";
-        $stmt = $this->db->query($sql);
+    public function all($q = null, $page = 1, $perPage = 10, &$total = 0) {
+        $offset = max(0, ($page - 1) * $perPage);
+        $where = '';
+        $params = [];
+        if ($q) {
+            $where = 'WHERE p.titulo LIKE :q1 OR p.contenido LIKE :q2 OR u.nombre LIKE :q3';
+            $params[':q1'] = '%' . $q . '%';
+            $params[':q2'] = '%' . $q . '%';
+            $params[':q3'] = '%' . $q . '%';
+        }
+        $countSql = "SELECT COUNT(*) as cnt FROM posts p JOIN usuarios u ON p.usuario_id = u.id $where";
+        $countStmt = $this->db->prepare($countSql);
+        $countStmt->execute($params);
+        $total = (int)($countStmt->fetch()['cnt'] ?? 0);
+
+        $perPage = (int)$perPage; $offset = (int)$offset;
+        $sql = "SELECT p.*, u.nombre as autor_nombre FROM posts p JOIN usuarios u ON p.usuario_id = u.id $where ORDER BY p.fecha_creacion DESC LIMIT $perPage OFFSET $offset";
+        $stmt = $this->db->prepare($sql);
+        foreach ($params as $k => $v) { $stmt->bindValue($k, $v, PDO::PARAM_STR); }
+        $stmt->execute();
         return $stmt->fetchAll();
     }
 
